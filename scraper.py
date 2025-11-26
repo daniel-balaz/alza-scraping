@@ -29,21 +29,31 @@ def get_page(url, how_many):
 def get_url(page, how_many):
 
     url_list = []
+    seen = set()
+
     url = page.locator("a.name.browsinglink.js-box-link")
 
     while len(url_list) < how_many:
 
-        count = len(url_list)
-
         for i in range(url.count()):
             link = url.nth(i).get_attribute('href')
-            url_list.append("https://www.alza.cz" + link)
+            full_url = "https://www.alza.cz" + link
 
-        print("Pocet odkazů: ", len(url_list))
+            if full_url not in seen:
+                url_list.append(full_url)
+                seen.add(full_url)
+
+        print("Počet unikátních odkazů:", len(url_list))
+
+        if len(url_list) >= how_many:
+            break
+
         page.locator("a.js-button-more.button-more.btnx.normal").click()
-    
+        page.wait_for_timeout(1200)  # drobná pauza, ať má čas načíst
+
     print(url_list)
     open_link(page, url_list)
+
 
 def open_link(page, url_list):
 
@@ -62,7 +72,7 @@ def scraper(page, url, list_of_notebooks):
     name = page.get_by_role("heading", level=1).inner_text()
 
     # PRICE
-    price = float(page.get_by_text(",-").nth(8).inner_text().replace(",-", "").replace(" ", ""))
+    price = page.get_by_text(",-").nth(8).inner_text().replace(",-", "").replace(" ", "")
 
     # HODNOCENI
     rating_element = page.locator("span.ratingValue")
@@ -99,7 +109,7 @@ def scraper(page, url, list_of_notebooks):
 
     # ADDING THINKS TO LIST
     print_it(name, price, rating, rating_count, availability, image_url, notebook_url, id, ram, storage, cpu)
-    #to_list(list_of_notebooks, name, price, rating, rating_count, availability, image_url, notebook_url, id, ram, storage, cpu)
+    to_list(list_of_notebooks, name, price, rating, rating_count, availability, image_url, notebook_url, id, ram, storage, cpu)
 
 def to_list(list_of_notebooks, name, price, rating, rating_count, availability, image_url, notebook_url, id, ram, storage, cpu):
 
