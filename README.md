@@ -1,4 +1,4 @@
-# 🖥️ Alza Notebook Scraper (Playwright + Python)
+# Alza Notebook Scraper (Playwright + Python)
 
 Tento projekt je webový scraper pro stránku **Alza.cz**, který automaticky
 načítá informace o noteboocích, prochází stránkování pomocí tlačítka
@@ -9,7 +9,7 @@ s reálným prohlížečem (Chromium).
 
 ---
 
-## 🚀 Funkce
+## Funkce
 
 - Vyhledá a načte požadovaný počet produktů.
 - Extrahuje tyto informace:
@@ -30,7 +30,7 @@ s reálným prohlížečem (Chromium).
 
 ---
 
-## 🛠️ Technologie
+## Technologie
 
 - **Python 3.10+**
 - **Playwright (sync API)**
